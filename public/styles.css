@@ -1,0 +1,64 @@
+.organization-popup {
+    width: 300px;
+    max-height: 300px;
+    overflow: auto;
+  }
+  
+  .organization-popup img {
+    width: 50%;
+    height: auto;
+  }
+  
+  .organization-popup a {
+    color: blue;
+    text-decoration: underline;
+  }
+  
+  .organization-popup p {
+    margin: 5px 0;
+  }
+
+  .leaflet-legend {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid #999;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .leaflet-legend strong {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .leaflet-legend i {
+    margin-right: 5px;
+  }
+
+  #title-container {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the container */
+    z-index: 1000; /* Ensure it's above the map */
+    text-align: center; /* Center the text within the container */
+  }
+  
+  #map-title {
+    background-color: rgba(212, 214, 92, 0.6);
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 20px;
+    color: darkmagenta;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+  }
+  
+  #toggle-title {
+    background-color: rgba(130, 171, 231, 0.6);
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+    display: none; /* Hide the toggle button if not needed */
+  }
+  
