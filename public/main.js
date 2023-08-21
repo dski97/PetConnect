@@ -74,7 +74,7 @@ function geocodeAddress(address, callback) {
 }
 
 // Fetch the organizations from the new endpoint
-fetch('/organizations')
+fetch('http://3.219.202.200:3000/organizations')
   .then(response => response.json())
   .then(organizations => {
     // Iterate through the organizations and add a marker for each one
