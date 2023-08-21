@@ -22,6 +22,16 @@ const baseMaps = {
 // Add the layer control to the map
 L.control.layers(baseMaps).addTo(map);
 
+// Add the popup to the map
+window.addEventListener('load', function() {
+  document.getElementById('welcome-popup').style.display = 'block';
+});
+
+// Close the popup when the close button is clicked
+document.getElementById('close-welcome-popup').addEventListener('click', function() {
+  document.getElementById('welcome-popup').style.display = 'none';
+});
+
 //Add icon to the map
 var pawIcon = L.divIcon({
   className: 'leaflet-paw-icon',
@@ -75,12 +85,14 @@ fetch('/organizations')
         geocodeAddress(organization.address, coordinates => {
           // Add a marker to the map at the coordinates
           const marker = L.marker(coordinates, { icon: pawIcon }).addTo(map);
-
+          //Create a unique id for pets button
+          const viewPetsButtonId = `view-pets-button-${organization.id}`;
           // Create a popup with the organization's information
           const popupContent = `
           <div class="organization-popup">
             <h3>${organization.name || 'N/A'}</h3>
             <img src="${organization.photos && organization.photos[0] ? organization.photos[0].medium : '/placeholder-image.svg'}" alt="${organization.name || 'N/A'}">
+            <button id="${viewPetsButtonId}" data-organization-id="${organization.id}" class="view-pets-popup-button">View Pets</button>
             <p><strong>Phone:</strong> ${organization.phone || 'N/A'}</p>
             <p><strong>Email:</strong> ${organization.email || 'N/A'}</p>
             <p><strong>Petfinder Page:</strong> <a href="${organization.url || '#'}" target="_blank">View on Petfinder</a></p>
@@ -91,13 +103,83 @@ fetch('/organizations')
           </div>
         `;
         
-        // Bind the popup to the marker
-        marker.bindPopup(popupContent);
+          // Bind the popup to the marker
+          marker.bindPopup(popupContent);
+
+          marker.on('popupopen', function() {
+            const viewPetsButton = document.getElementById(viewPetsButtonId);
+            viewPetsButton.addEventListener('click', function() {
+              const organizationId = this.getAttribute('data-organization-id');
+              fetchPetsAtShelter(organizationId);
+            });
+          });
         });
       }
     });
   })
   .catch(error => console.error('Error fetching organizations:', error));
+
+  //fetch pets at shelter
+  function fetchPetsAtShelter(organizationId) {
+    fetch(`/animals?organization=${organizationId}`)
+      .then(response => response.json())
+      .then(pets => {
+        createPetWindow(pets);
+      })
+      .catch(error => console.error('Error fetching pets:', error));
+  }
+  
+  //create pet window to display pets
+  function createPetWindow(pets) {
+    // Remove any existing pet window
+    const existingPetWindow = document.getElementById('pet-window');
+    if (existingPetWindow) existingPetWindow.remove();
+    
+    // Create a div element for the window
+    const petWindow = document.createElement('div');
+    petWindow.id = 'pet-window';
+    petWindow.className = 'pet-window';
+  
+    // Create a close button
+    const closeButton = document.createElement('button');
+    closeButton.id = 'pet-window-close-button';
+    closeButton.className = 'pet-window-close-button';
+    closeButton.innerHTML = 'Close';
+    closeButton.addEventListener('click', function() {
+      petWindow.remove();
+    });
+  
+    // Add the close button to the window
+    petWindow.appendChild(closeButton);
+  
+    // Add the pet information to the window
+    pets.forEach(pet => {
+      const petDiv = document.createElement('div');
+      petDiv.className = 'pet-info';
+  
+      // Add pet details (e.g., name, image, etc.)
+      petDiv.innerHTML = `
+      <h4><a href="${pet.url}" target="_blank">${pet.name}</a></h4>
+      <img src="${pet.photos && pet.photos[0] ? pet.photos[0].medium : '/placeholder-image.svg'}" alt="${pet.name}">
+      <p><strong>Type:</strong> ${pet.type}</p>
+      <p><strong>Species:</strong> ${pet.species}</p>
+      <p><strong>Breeds:</strong> ${pet.breeds.primary}</p>
+      <p><strong>Colors:</strong> ${pet.colors.primary}</p>
+      <p><strong>Age:</strong> ${pet.age}</p>
+      <p><strong>Gender:</strong> ${pet.gender}</p>
+      <p><strong>Size:</strong> ${pet.size}</p>
+      <p><strong>Coat:</strong> ${pet.coat}</p>
+      <p><strong>Description:</strong> ${pet.description || 'No description available.'}</p>
+      <p><strong>URL:</strong> <a href="${pet.url}" target="_blank">View on Petfinder</a></p>
+    `;
+  
+      // Add the pet div to the window
+      petWindow.appendChild(petDiv);
+    });
+  
+    // Append the window to the body of the page
+    document.body.appendChild(petWindow);
+  }
 
 // Hide the title when a popup is opened
 map.on('popupopen', function() {
@@ -108,6 +190,5 @@ map.on('popupopen', function() {
 map.on('popupclose', function() {
   document.getElementById('map-title').style.display = 'block';
 });
-
 
 

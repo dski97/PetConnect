@@ -31,3 +31,15 @@ petconnect.getAccessToken().then(token => {
       });
   });
 });
+
+app.get('/animals', (req, res) => {
+  const organizationId = req.query.organization;
+  petconnect.getAnimalsByOrganization(accessToken, organizationId)
+    .then(animals => {
+      res.json(animals.animals); // Send animals to the client
+    })
+    .catch(error => {
+      console.error('Error fetching animals:', error);
+      res.status(500).send('Error fetching animals');
+    });
+});

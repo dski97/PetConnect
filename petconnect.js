@@ -34,4 +34,16 @@ function getOrganizations(accessToken, state = 'CT', page = 1, limit = 100) {
   });
 }
 
-module.exports = { getAccessToken, getOrganizations };
+function getAnimalsByOrganization(accessToken, organizationId, page = 1, limit = 100) {
+  return axios.get(`https://api.petfinder.com/v2/animals?organization=${organizationId}&page=${page}&limit=${limit}`, {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+    },
+  })
+  .then(response => response.data)
+  .catch(error => {
+    console.error('Error fetching animals:', error);
+  });
+}
+
+module.exports = { getAccessToken, getOrganizations, getAnimalsByOrganization };
