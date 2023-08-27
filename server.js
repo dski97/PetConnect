@@ -10,6 +10,11 @@ const petconnect = require('./petconnect');
 const privateKey = fs.readFileSync('key.pem', 'utf8');
 const certificate = fs.readFileSync('cert.pem', 'utf8');
 
+// Require CORS
+const cors = require('cors');
+// enable CORS
+app.use(cors());
+
 // Create credentials object
 const credentials = { key: privateKey, cert: certificate };
 
