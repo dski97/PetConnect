@@ -91,7 +91,7 @@ fetch('https://3.219.202.200:3000/organizations')
           const popupContent = `
           <div class="organization-popup">
             <h3>${organization.name || 'N/A'}</h3>
-            <img src="${organization.photos && organization.photos[0] ? organization.photos[0].medium : '/placeholder-image.svg'}" alt="${organization.name || 'N/A'}">
+            <img src="${organization.photos && organization.photos[0] ? organization.photos[0].medium : 'PetConnect/public/placeholder-image.svg'}" alt="${organization.name || 'N/A'}">
             <button id="${viewPetsButtonId}" data-organization-id="${organization.id}" class="view-pets-popup-button">View Pets</button>
             <p><strong>Phone:</strong> ${organization.phone || 'N/A'}</p>
             <p><strong>Email:</strong> ${organization.email || 'N/A'}</p>
