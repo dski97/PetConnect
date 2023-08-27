@@ -121,7 +121,7 @@ fetch('https://3.219.202.200:3000/organizations')
 
   //fetch pets at shelter
   function fetchPetsAtShelter(organizationId) {
-    fetch(`/animals?organization=${organizationId}`)
+    fetch(`https://3.219.202.200:3000/animals?organization=${organizationId}`)
       .then(response => response.json())
       .then(pets => {
         createPetWindow(pets);
