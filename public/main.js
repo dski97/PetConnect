@@ -91,7 +91,7 @@ fetch('https://3.219.202.200:3000/organizations')
           const popupContent = `
           <div class="organization-popup">
             <h3>${organization.name || 'N/A'}</h3>
-            <img src="${organization.photos && organization.photos[0] ? organization.photos[0].medium : '/placeholder-image.svg'}" alt="${organization.name || 'N/A'}">
+            <img src="${organization.photos && organization.photos[0] ? organization.photos[0].medium : 'https://dski97.github.io/PetConnect/public/placeholder-image.svg'}" alt="${organization.name || 'N/A'}">
             <button id="${viewPetsButtonId}" data-organization-id="${organization.id}" class="view-pets-popup-button">View Pets</button>
             <p><strong>Phone:</strong> ${organization.phone || 'N/A'}</p>
             <p><strong>Email:</strong> ${organization.email || 'N/A'}</p>
@@ -160,7 +160,7 @@ fetch('https://3.219.202.200:3000/organizations')
       // Add pet details (e.g., name, image, etc.)
       petDiv.innerHTML = `
       <h4><a href="${pet.url}" target="_blank">${pet.name}</a></h4>
-      <img src="${pet.photos && pet.photos[0] ? pet.photos[0].medium : '/placeholder-image.svg'}" alt="${pet.name}">
+      <img src="${pet.photos && pet.photos[0] ? pet.photos[0].medium : 'https://dski97.github.io/PetConnect/public/placeholder-image.svg'}" alt="${pet.name}">
       <p><strong>Type:</strong> ${pet.type}</p>
       <p><strong>Species:</strong> ${pet.species}</p>
       <p><strong>Breeds:</strong> ${pet.breeds.primary}</p>
