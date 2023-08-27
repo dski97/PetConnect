@@ -160,7 +160,7 @@ fetch('https://3.219.202.200:3000/organizations')
       // Add pet details (e.g., name, image, etc.)
       petDiv.innerHTML = `
       <h4><a href="${pet.url}" target="_blank">${pet.name}</a></h4>
-      <img src="${pet.photos && pet.photos[0] ? pet.photos[0].medium : '/placeholder-image.svg'}" alt="${pet.name}">
+      <img src="${pet.photos && pet.photos[0] ? pet.photos[0].medium : 'PetConnect/public/placeholder-image.svg'}" alt="${pet.name}">
       <p><strong>Type:</strong> ${pet.type}</p>
       <p><strong>Species:</strong> ${pet.species}</p>
       <p><strong>Breeds:</strong> ${pet.breeds.primary}</p>
